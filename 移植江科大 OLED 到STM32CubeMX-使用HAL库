@@ -2,3 +2,20 @@
 #include "stm32f1xx_hal.h"
 #include "gpio.h"
 修改添加
+
+//引脚定义配置
+void OLED_W_SCL(uint8_t BitValue){
+	GPIO_WriteBit(GPIOB, GPIO_Pin_8, (BitAction)BitValue);
+}
+--修改
+void OLED_W_SCL(GPIO_PinState x){
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, x);
+}
+改为使用HAL库已配置好的GPIO
+
+OLED_GPIO_Init中移除相关引脚配置代码
+MX_GPIO_Init();    //添加HAL库对GPIO的初始化函数
+	/*释放SCL和SDA*/
+OLED_W_SCL(GPIO_PIN_SET);
+OLED_W_SDA(GPIO_PIN_SET);
+/* 注意：这里要将所有的关于已定义的GPIO口所需要的上下拉定义为GPIO_PIN_SET/GPIO_PIN_RESET 否则会有warning
