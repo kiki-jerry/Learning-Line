@@ -19,3 +19,8 @@ MX_GPIO_Init();    //添加HAL库对GPIO的初始化函数
 OLED_W_SCL(GPIO_PIN_SET);
 OLED_W_SDA(GPIO_PIN_SET);
 /* 注意：这里要将所有的关于已定义的GPIO口所需要的上下拉定义为GPIO_PIN_SET/GPIO_PIN_RESET 否则会有warning
+
+对于使用到TIM定时器的程序，需要在CubeMX中设置好引脚以及定时器通道
+！！！设置 Prescaler 和 Counter Period
+对于TIM3定时中断来说 要实现1ms中断一次就需要 Prescaler = 72-1 / Counter Period = 1000-1
+对于TIM1使用 PWM Generation 产生PWM波需要 Prescaler = 100-1 / Counter Period = 36-1 （否则无法正确产生PWM波驱动电机 --实测！）
